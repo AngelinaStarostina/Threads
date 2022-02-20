@@ -3,8 +3,13 @@
 #include <ctime>
 using namespace std;
 
+void workerThread(LPVOID* arr)
+{
+	
+}
 
-void mainThread(LPVOID* length)
+
+ DWORD WINAPI mainThread(LPVOID* length)
 {
 	int *arr = new int[(int)length];
 	arr[0] = (int)length;
@@ -19,6 +24,17 @@ void mainThread(LPVOID* length)
 		arr[i] = rand();
 		cout << arr[i] << endl;
 	}
+
+
+	HANDLE worker;
+	DWORD IDThreadWorker;
+	worker = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)workerThread, (void*)arr, 0, &IDThreadWorker);		//3 //передать несколько параметров???
+	if (worker == 0)
+		return GetLastError();
+
+	WaitForSingleObject(worker, INFINITE); //6
+
+	CloseHandle(worker); //7
 }
 
 int main()
