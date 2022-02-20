@@ -3,9 +3,16 @@
 #include <ctime>
 using namespace std;
 
-void workerThread(LPVOID* arr)
+DWORD WINAPI workerThread(LPVOID* arr)
 {
-	
+	int count = 0;
+	for (int i = 2; i < (int)arr[0]; i++)
+	{
+		if ((int)arr[i] % 2 == 0)
+			count++;
+	}
+	cout << count;
+	return count;
 }
 
 
